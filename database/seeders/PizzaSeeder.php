@@ -16,7 +16,7 @@ class PizzaSeeder extends Seeder
         $pizzas = [
             [
                 'title' => 'Spinach Pizza',
-                // 'image' => 'images/spinach-pizza.jpg',
+                'image' => 'pizzas/spinach-pizza.png',
                 'description' => 'This cheesy spinach pie combines store-bought Alfredo sauce with delicate baby spinach and chopped tomatoes. For extra pizazz, top it with chopped artichoke hearts.',
                 'price_small' => 8.99,
                 'price_medium' => 11.99,
@@ -25,7 +25,7 @@ class PizzaSeeder extends Seeder
             ],
             [
                 'title' => 'Wild Mushroom Pizza',
-                // 'image' => 'images/mushroom-pizza.jpg',
+                'image' => 'pizzas/mushroom-pizza.png',
                 'description' => 'Earthy mushrooms were made for this elegant white pizza, which features three types of cheese: Gruyere, Parmesan and cream cheese. Mix and match your favorite mushroom varieties with fresh herbs like rosemary, sage or chives.',
                 'price_small' => 9.99,
                 'price_medium' => 12.99,
@@ -34,7 +34,7 @@ class PizzaSeeder extends Seeder
             ],
             [
                 'title' => 'Margherita Pizza',
-                // 'image' => 'images/margherita-pizza.jpg',
+                'image' => 'pizzas/margherita-pizza.png',
                 'description' => 'This recipe is a classic for a reason! Margherita is one of the easiest vegetarian pizzas, and its simplicity really allows the flavors of the tomato sauce and crust to shine.',
                 'price_small' => 7.99,
                 'price_medium' => 10.99,
@@ -43,7 +43,7 @@ class PizzaSeeder extends Seeder
             ],
             [
                 'title' => 'Pesto Pizza',
-                // 'image' => 'images/pesto-pizza.jpg',
+                'image' => 'pizzas/pesto-pizza.png',
                 'description' => 'Made with homemade pesto spread atop this crowd-pleasing pizza. Simple with just pesto, mozzarella cheese and sliced tomatoes, but perfect for adding grilled veggies, olives or burrata.',
                 'price_small' => 8.49,
                 'price_medium' => 11.49,
@@ -52,7 +52,7 @@ class PizzaSeeder extends Seeder
             ],
             [
                 'title' => 'Zucchini Crust Pizza',
-                // 'image' => 'images/zucchini-crust-pizza.jpg',
+                'image' => 'pizzas/zucchini-crust-pizza.png',
                 'description' => 'Besides the veggie toppings, this pizza also has a veggie crust! This zucchini crust pizza is loaded with wholesome ingredients you can feel good about.',
                 'price_small' => 9.49,
                 'price_medium' => 12.49,
@@ -61,7 +61,7 @@ class PizzaSeeder extends Seeder
             ],
             [
                 'title' => 'Grilled Veggie Pizza',
-                'image' => 'images/grilled-veggie-pizza.jpg',
+                'image' => 'pizzas/grilled-veggie-pizza.png',
                 'description' => 'Grilling pizza instead of baking it adds a touch of charred flavor. This loaded veggie pie uses prebaked whole-wheat pizza crust with a variety of grilled vegetables.',
                 'price_small' => 10.99,
                 'price_medium' => 13.99,
@@ -70,7 +70,7 @@ class PizzaSeeder extends Seeder
             ],
             [
                 'title' => 'New York-Style Pizza',
-                // 'image' => 'images/ny-style-pizza.jpg',
+                'image' => 'pizzas/ny-style-pizza.png',
                 'description' => 'Defined by its thin, floppy crust and extra-large size. Made with homemade dough, tomato sauce and shredded mozzarella cheese. Can be made as a white pizza with different cheese types.',
                 'price_small' => 8.99,
                 'price_medium' => 11.99,
@@ -79,7 +79,7 @@ class PizzaSeeder extends Seeder
             ],
             [
                 'title' => 'White Pizza',
-                // 'image' => 'images/white-pizza.jpg',
+                'image' => 'pizzas/white-pizza.png',
                 'description' => 'The key to perfect white pizza is high-quality cheese and loads of aromatic garlic. Olive oil plays a big role in the flavor, creating a rich and indulgent experience.',
                 'price_small' => 9.49,
                 'price_medium' => 12.49,
@@ -88,7 +88,7 @@ class PizzaSeeder extends Seeder
             ],
             [
                 'title' => 'Loaded Mexican Pizza',
-                // 'image' => 'images/mexican-pizza.jpg',
+                'image' => 'pizzas/mexican-pizza.png',
                 'description' => 'A zesty, black bean-topped pizza inspired by taco flavors. Perfect served with pico de gallo or guacamole on the side for an authentic Mexican experience.',
                 'price_small' => 10.49,
                 'price_medium' => 13.49,
@@ -97,7 +97,7 @@ class PizzaSeeder extends Seeder
             ],
             [
                 'title' => 'Italian-Style Mini Pizzas',
-                // 'image' => 'images/italian-style-pizzas.jpg',
+                'image' => 'pizzas/italian-style-pizza.png',
                 'description' => 'Party-friendly mini pizzas loaded with your favorite vegetarian toppings. Made with mini crusts, pita bread or naan for perfect individual servings.',
                 'price_small' => 7.49,
                 'price_medium' => 10.49,
@@ -106,7 +106,7 @@ class PizzaSeeder extends Seeder
             ],
             [
                 'title' => 'Greek Isle Pizza',
-                // 'image' => 'images/greek-pizza.jpg',
+                'image' => 'pizzas/greek-pizza.png',
                 'description' => 'Mediterranean-inspired pie with crumbly feta, briny olives and sun-dried tomatoes. Cherry tomatoes, marinated olives, roasted red peppers and pepperoncini make perfect additions.',
                 'price_small' => 9.99,
                 'price_medium' => 12.99,
@@ -115,7 +115,7 @@ class PizzaSeeder extends Seeder
             ],
             [
                 'title' => 'Cauliflower Crust Pizza',
-                // 'image' => 'images/cauliflower-pizza.jpg',
+                'image' => 'pizzas/cauliflower-pizza.png',
                 'description' => 'Golden, cheesy cauliflower crust is naturally gluten-free and tastes just as good as traditional crust. The nutty crust pairs perfectly with any sauce, cheese and toppings.',
                 'price_small' => 10.99,
                 'price_medium' => 13.99,
@@ -124,7 +124,7 @@ class PizzaSeeder extends Seeder
             ],
             [
                 'title' => 'Shakshuka Breakfast Pizza',
-                // 'image' => 'images/shakshuka-pizza.jpg',
+                'image' => 'pizzas/shakshuka-pizza.png',
                 'description' => 'Richly spiced eggs poached in aromatic tomato sauce on pizza form. Perfect for brunch parties served alongside fresh fruit and mimosas.',
                 'price_small' => 11.49,
                 'price_medium' => 14.49,
@@ -133,7 +133,7 @@ class PizzaSeeder extends Seeder
             ],
             [
                 'title' => 'Pizza Caprese',
-                // 'image' => 'images/pizza-caprese.jpg',
+                'image' => 'pizzas/caprese-pizza.png',
                 'description' => 'A delicious riff on the classic Italian caprese salad. Simple and satisfying with fresh mozzarella, tomatoes, and basil on a crispy crust.',
                 'price_small' => 8.99,
                 'price_medium' => 11.99,
@@ -142,7 +142,7 @@ class PizzaSeeder extends Seeder
             ],
             [
                 'title' => 'Vegan Pizza',
-                // 'image' => 'images/vegan-pizza.jpg',
+                'image' => 'pizzas/vegan-pizza.png',
                 'description' => 'Dairy-free pizza with a crackling homemade crust and colorful roasted vegetables. Made with plant-based cheese alternatives for a completely vegan experience.',
                 'price_small' => 10.49,
                 'price_medium' => 13.49,
@@ -151,7 +151,7 @@ class PizzaSeeder extends Seeder
             ],
             [
                 'title' => 'Flatbread Pizza',
-                // 'image' => 'images/flatbread-pizza.jpg',
+                'image' => 'pizzas/flatbread-pizza.png',
                 'description' => 'Quick and easy pizza that comes together in just 30 minutes including rise time. Made with all-purpose flour and topped with your favorite vegetables.',
                 'price_small' => 7.99,
                 'price_medium' => 10.99,
