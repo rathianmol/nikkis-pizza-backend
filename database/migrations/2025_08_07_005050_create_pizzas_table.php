@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('pizzas', function (Blueprint $table) {
             $table->id();
+
             $table->string('title');
             $table->string('image')->nullable(); // Store image path/URL
-            $table->text('description');
+            $table->text('description'); 
             $table->decimal('price_small', 8, 2);
             $table->decimal('price_medium', 8, 2);
             $table->decimal('price_large', 8, 2);
-            $table->decimal('price_xlarge', 8, 2);
+            $table->decimal('price_x_large', 8, 2);
 
             $table->timestamps();
         });
