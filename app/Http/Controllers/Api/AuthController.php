@@ -41,6 +41,7 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'User registered successfully',
             'user' => $user,
+            'role' => $user->getRoleNames()->first(),
             'token' => $token,
         ], Response::HTTP_CREATED);
     }
@@ -68,6 +69,7 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Login successful',
             'user' => $user,
+            'role' => $user->getRoleNames()->first(),
             'token' => $token,
         ]);
     }
