@@ -7,7 +7,6 @@ use App\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
-// use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
@@ -23,38 +22,39 @@ class AddressController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        // if ($request->input('user_id') !== Auth::id()) {
-        //     return response()->json(['error' => 'Client side user ID not matching server side user ID'], Response::HTTP_NOT_ACCEPTABLE);
-        // }
-        // xdebug_break();
-        try {
-            $validated = $request->validate([
-                'address_line_1' => 'required|string|max:255',
-                'address_line_2' => 'nullable|string|max:255',
-                'city' => 'required|string|max:255',
-                'state' => 'required|string|max:255',
-                'postal_code' => 'required|string|max:20',
-            ]);
+        $success = false;
+        $message = 'Unable to save user address.';
+        $responseCode = Response::HTTP_NOT_FOUND;
 
-            // Add authenticated user's ID to validated data
-            // $validated['user_id'] = Auth::id();
-            $validated['user_id'] = $request->input('user_id');
+        $user = Auth::user();
+        // If address does not exist already (is_null true).
+        // if not is_null, then address already exists, dont create another one.
+        $data = is_null($user->address) ? null : $user->address;
 
-            $address = Address::create($validated);
+        // 1. validate
+        $validated = $request->validate([
+            'address_line_1' => 'required|string|max:255',
+            'address_line_2' => 'nullable|string|max:255',
+            'city' => 'required|string|max:255',
+            'state' => 'required|string|max:255',
+            'postal_code' => 'required|string|max:20',
+        ]);
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Address saved successfully',
-                'data' => $address
-            ], Response::HTTP_OK);
+        // 2. check if the user already has an address
 
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to save address',
-                'error' => $e->getMessage()
-            ], 500);
+        if (is_null($data)) {
+            $validated['user_id'] = $user->id;
+            $data = Address::create($validated);
+            $success = true;
+            $message = 'Address saved successfully.';
+            $responseCode = Response::HTTP_FOUND;
         }
+
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+            'data' => $data,
+        ], $responseCode);
     }
 
     /**
@@ -62,34 +62,27 @@ class AddressController extends Controller
      */
     public function show(Request $request): JsonResponse
     {
+        // xdebug_break();
+
         $success = false;
         $message = 'User does not have an associated address in the system.';
         $responseCode = Response::HTTP_NOT_FOUND;
 
-        // if ($request->input('user_id') !== Auth::id()) {
-        //     return response()->json(['error' => 'Client side user ID not matching server side user ID'], Response::HTTP_NOT_ACCEPTABLE);
-        // }
-        // xdebug_break();
-        try {
-            $user = User::find($request->input('user_id'));
-            $address = $user->address ?? null;
-            if (!is_null($address)) {
-                $success = true;
-                $message = 'User address successfully retrieved.'; 
-                $responseCode = Response::HTTP_OK;
-            }
-            return response()->json([
-                'success' => $success,
-                'data' => $success ? $address : null,
-                'message' => $message,
-            ], $responseCode);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to show address',
-                'error' => $e->getMessage()
-            ], 500);
+        $user = Auth::user();
+        $data = !is_null($user->address) ? $user->address : null;
+
+        if (!is_null($data) ) {
+            $success = true;
+            $message = "User address successfully retrieved.";
+            $responseCode = Response::HTTP_FOUND;
         }
+
+        return response()->json([
+            'success' => $success,
+            'data' => $success ? $data : null,
+            'message' => $message,
+            'data' => $data,
+        ], $responseCode);
     }
 
     /**
@@ -97,48 +90,38 @@ class AddressController extends Controller
      */
     public function update(Request $request): JsonResponse
     {
-        // if ($request->input('user_id') !== Auth::id()) {
-        //     return response()->json(['error' => 'Client side user ID not matching server side user ID'], Response::HTTP_NOT_ACCEPTABLE);
-        // }
+        // xdebug_break();
         $success = false;
-        $message = 'User does not have an associated address in the system.';
+        $message = 'Unable to update user address.';
         $responseCode = Response::HTTP_NOT_FOUND;
-        try {
-            $user = User::find($request->input('user_id'));
-            $address = $user->address ??  null;
-            
-            if (is_null($address)) {
-                return response()->json([
-                    'success' => $success,
-                    'message' => $message,
-                ], $responseCode);
-            }
 
-            $validated = $request->validate([
-                'address_line_1' => 'required|string|max:255',
-                'address_line_2' => 'nullable|string|max:255',
-                'city' => 'required|string|max:255',
-                'state' => 'required|string|max:255',
-                'postal_code' => 'required|string|max:20',
-            ]);
+        $user = Auth::user();
+        $data = !is_null($user->address) ? $user->address : null;
 
-            $address->update($validated);
+        // 1. validate
+        $validated = $request->validate([
+            'address_line_1' => 'required|string|max:255',
+            'address_line_2' => 'nullable|string|max:255',
+            'city' => 'required|string|max:255',
+            'state' => 'required|string|max:255',
+            'postal_code' => 'required|string|max:20',
+        ]);
+
+        // 2. check if the user already has an address/
+        // Dont update a non-existing user-address record.
+        if (!is_null($data)) {
+            $data->update($validated);
+            $data->fresh();
             $success = true;
             $message = 'Address updated successfully.';
             $responseCode = Response::HTTP_OK;
-            return response()->json([
-                'success' => $success,
-                'message' => $message,
-                'data' => $address->fresh()
-            ], $responseCode);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to update address',
-                'error' => $e->getMessage()
-            ], 500);
         }
+
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+            'data' => $data,
+        ], $responseCode);
     }
 
     /**
@@ -146,34 +129,29 @@ class AddressController extends Controller
      */
     public function destroy(Request $request): JsonResponse
     {
-        // if ($request->input('user_id') !== Auth::id()) {
-        //     return response()->json(['error' => 'Client side user ID not matching server side user ID'], Response::HTTP_NOT_ACCEPTABLE);
-        // }
-        // xdebug_break();
-        try {
-            $user = User::find($request->input('user_id'));
-            $address = $user->address ?? null;
-            
-            if (is_null($address)) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'User does not have an associated address in the system.'
-                ], Response::HTTP_NOT_FOUND);
-            }
+        $success = false;
+        $message = 'Unable to delete user address.';
+        $responseCode = Response::HTTP_NOT_FOUND;
 
-            $address->delete();
+        $user = Auth::user();
+        // If address does not exist already (is_null true). -> give data = null, dont proceed - dont delete a non-existent record.
+        // if not is_null, then address already exists, able to destroy.
+        $data = is_null($user->address) ? null : $user->address;
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Address deleted successfully'
-            ], Response::HTTP_OK);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Error encountered when trying to delete address.',
-                'error' => $e->getMessage()
-            ], 500);
+        // 2. check if the user already has an address/
+        // Dont update a non-existing user-address record.
+        // if not is_null, then address already exists, able to destroy.
+        if (!is_null($data)) {
+            $data = $data->delete();
+            $success = true;
+            $message = 'Address deleted successfully.';
+            $responseCode = Response::HTTP_OK;
         }
+
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+            'data' => $data,
+        ], $responseCode);
     }
 }

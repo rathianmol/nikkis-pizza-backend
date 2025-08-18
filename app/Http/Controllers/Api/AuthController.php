@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -79,11 +80,12 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
-
+        $user = Auth::user();
+        // Delete user's access token
+        $user->tokens()->delete();
         return response()->json([
             'message' => 'Logged out successfully'
-        ]);
+        ], Response::HTTP_OK);
     }
 
     /**
