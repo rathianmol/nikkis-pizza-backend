@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PizzaController;
+use App\Http\Controllers\Api\AddressController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,10 +21,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'user']);
     Route::post('/revoke-all', [AuthController::class, 'revokeAll']);
-    
-    // Add your other protected API routes here
-    // Example:
-    // Route::apiResource('posts', PostController::class);
+
 });
 
 // Test route to verify API is working
@@ -58,4 +56,15 @@ Route::prefix('pizzas')->group(function () {
     // Route::get('/paginated/list', [PizzaController::class, 'paginated']);
     // Route::get('/search/query', [PizzaController::class, 'search']);
     // Route::get('/filter/price', [PizzaController::class, 'filterByPrice']);
+});
+
+
+// Address API Routes
+// "get the address by the user id"
+Route::prefix('address/user')->group(function () {
+    // Basic CRUD operations
+    Route::get('/{user}', [AddressController::class, 'show']);  // public function show(Request $request, User $user): JsonResponse
+    Route::post('/{user}', [AddressController::class, 'store']);
+    Route::put('/{user}', [AddressController::class, 'update']);
+    Route::delete('/{user}', [AddressController::class, 'destroy']);
 });
