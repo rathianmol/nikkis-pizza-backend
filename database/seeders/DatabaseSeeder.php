@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class,
             AdminUserSeeder::class,
             PizzaSeeder::class,
+            AddressSeeder::class,
         ]);
-
     }
 }
