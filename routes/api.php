@@ -26,12 +26,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     Route::prefix('address/user')->group(function () {
-    // Basic CRUD operations
-    Route::get('/', [AddressController::class, 'show']);
-    Route::post('/', [AddressController::class, 'store']);
-    Route::put('/', [AddressController::class, 'update']);
-    Route::delete('/', [AddressController::class, 'destroy']);
-});
+        // Basic CRUD operations
+        Route::get('/', [AddressController::class, 'show']);
+        Route::post('/', [AddressController::class, 'store']);
+        Route::put('/', [AddressController::class, 'update']);
+        Route::delete('/', [AddressController::class, 'destroy']);
+    });
 
 });
 
@@ -68,14 +68,3 @@ Route::prefix('pizzas')->group(function () {
     // Route::get('/search/query', [PizzaController::class, 'search']);
     // Route::get('/filter/price', [PizzaController::class, 'filterByPrice']);
 });
-
-
-// Address API Routes
-// "get the address by the user id"
-// Route::prefix('address/user')->group(function () {
-//     // Basic CRUD operations
-//     Route::get('/{user}', [AddressController::class, 'show']);  // public function show(Request $request, User $user): JsonResponse
-//     Route::post('/{user}', [AddressController::class, 'store']);
-//     Route::put('/{user}', [AddressController::class, 'update']);
-//     Route::delete('/{user}', [AddressController::class, 'destroy']);
-// });
