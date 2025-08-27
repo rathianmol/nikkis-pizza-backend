@@ -7,9 +7,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\UserResource;
 
 class AuthController extends Controller
 {
@@ -26,7 +26,7 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             $errors = $validator->errors();
-            return response()->json(['errors' => $errors], 422);
+            return response()->json(['message' => 'Register unsuccessful.', 'error' => true, 'errors' => $errors], 422);
         }
 
         $user = User::create([
@@ -40,9 +40,9 @@ class AuthController extends Controller
         $token = $user->createToken('api-token')->plainTextToken;
 
         return response()->json([
-            'message' => 'User registered successfully',
-            'user' => $user,
-            'role' => $user->getRoleNames()->first(),
+            'message' => 'User registered successfully.',
+            'error' => false,
+            'user' => new UserResource($user),
             'token' => $token,
         ], Response::HTTP_CREATED);
     }
@@ -52,25 +52,28 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+        xdebug_break();
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::with(['address', 'roles'])->where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
+
+            return response()->json([
+                'message' => 'Login unsuccessful.',
+                'error' => true,
             ]);
         }
 
         $token = $user->createToken('api-token')->plainTextToken;
 
         return response()->json([
-            'message' => 'Login successful',
-            'user' => $user,
-            'role' => $user->getRoleNames()->first(),
+            'message' => 'Login successful.',
+            'error' => false,
+            'user' => new UserResource($user),
             'token' => $token,
         ]);
     }
@@ -78,13 +81,14 @@ class AuthController extends Controller
     /**
      * Logout user (Revoke the token)
      */
-    public function logout(Request $request)
+    public function logout()
     {
         $user = Auth::user();
         // Delete user's access token
         $user->tokens()->delete();
         return response()->json([
-            'message' => 'Logged out successfully'
+            'message' => 'Logged out successfully.',
+            'error' => false
         ], Response::HTTP_OK);
     }
 
