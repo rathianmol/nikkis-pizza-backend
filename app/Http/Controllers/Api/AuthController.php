@@ -36,6 +36,8 @@ class AuthController extends Controller
         ]);
 
         $user->assignRole('customer');
+        // Refresh the model and load roles to send customer role to front-end.          
+        $user->refresh()->load('roles');
 
         $token = $user->createToken('api-token')->plainTextToken;
 
@@ -52,7 +54,7 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        xdebug_break();
+        // xdebug_break();
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
