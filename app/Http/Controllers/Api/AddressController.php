@@ -12,9 +12,6 @@ use App\Http\Controllers\Controller;
 
 class AddressController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         //
@@ -40,8 +37,8 @@ class AddressController extends Controller
             'postal_code' => 'required|string|max:20',
         ]);
 
-        // 2. check if the user already has an address
-
+        // 2. check if the user already has an address.
+        // If address already existing, no need to create a new address. Logically, should be updating.
         if (is_null($data)) {
             $validated['user_id'] = $user->id;
             $data = Address::create($validated);
@@ -57,10 +54,7 @@ class AddressController extends Controller
         ], $responseCode);
     }
 
-    /**
-     * GET /api/address/{user}
-     */
-    public function show(Request $request): JsonResponse
+    public function show(): JsonResponse
     {
         // xdebug_break();
 
@@ -127,7 +121,7 @@ class AddressController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request): JsonResponse
+    public function destroy(): JsonResponse
     {
         $success = false;
         $message = 'Unable to delete user address.';
@@ -138,8 +132,7 @@ class AddressController extends Controller
         // if not is_null, then address already exists, able to destroy.
         $data = is_null($user->address) ? null : $user->address;
 
-        // 2. check if the user already has an address/
-        // Dont update a non-existing user-address record.
+        // 2. check if the user already has an address. Dont update a non-existing user-address record.
         // if not is_null, then address already exists, able to destroy.
         if (!is_null($data)) {
             $data = $data->delete();
