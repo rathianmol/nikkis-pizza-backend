@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -42,6 +43,7 @@ class OrderController extends Controller
 
         try {
             $order = Order::create([
+                'user_id' => Auth::id(),
                 'cart_items' => $request->cartItems,
                 'amount' => $request->amount,
                 'total_price' => $request->totalPrice,
