@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PizzaController;
 use App\Http\Controllers\Api\AddressController;
+use App\Http\Controllers\Api\OrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/', [AddressController::class, 'destroy']);
     });
 
+    Route::prefix('orders')->group(function () {
+        // Basic CRUD operations
+        Route::get('/', [OrderController::class, 'index']);
+        Route::get('/{order}', [OrderController::class, 'show']);
+        Route::post('/', [OrderController::class, 'store']);
+        Route::put('/{order}', [OrderController::class, 'update']);
+        Route::delete('/{order}', [OrderController::class, 'destroy']);
+    });
 });
 
 // Test route to verify API is working

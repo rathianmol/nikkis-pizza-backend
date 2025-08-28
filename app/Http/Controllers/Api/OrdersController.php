@@ -34,7 +34,6 @@ class OrderController extends Controller
             'deliveryAddress.state' => 'required_if:orderType,delivery|string',
             'deliveryAddress.postal_code' => 'required_if:orderType,delivery|string',
             'cardInfo' => 'nullable|array',
-            // 'cardInfo.id' => 'required_if:orderType,delivery|integer',
             'cardInfo.cardNumber' => 'required_if:paymentMethod,card|string',
             'cardInfo.expirationDate' => 'required_if:paymentMethod,card|string',
             'cardInfo.securityCode' => 'required_if:paymentMethod,card|string',
@@ -97,7 +96,8 @@ class OrderController extends Controller
     /**
      * Update order status
      */
-    public function updateStatus(Request $request, Order $order): JsonResponse
+    // public function updateStatus(Request $request, Order $order): JsonResponse
+    public function update(Request $request, Order $order): JsonResponse
     {
         $request->validate([
             'status' => 'required|in:pending,confirmed,preparing,ready,completed,cancelled',
