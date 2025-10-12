@@ -15,6 +15,7 @@ class OrderController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
+        // xdebug_break();
         $request->validate([
             'cartItems' => 'required|array|min:1',
             'cartItems.*.id' => 'required|string',
@@ -101,6 +102,7 @@ class OrderController extends Controller
     // public function updateStatus(Request $request, Order $order): JsonResponse
     public function update(Request $request, Order $order): JsonResponse
     {
+        // xdebug_break();
         $request->validate([
             'status' => 'required|in:pending,confirmed,preparing,ready,completed,cancelled',
         ]);
@@ -125,5 +127,37 @@ class OrderController extends Controller
             'success' => true,
             'message' => 'Order deleted successfully',
         ]);
+    }
+
+    /**
+     * Get orders for the authenticated customer
+     * Returns all orders for the currently logged-in user, sorted by latest first
+     * This is to show case a user's order history on the app; will be used to calculate free meals/discounts.
+     */
+    public function getOrderDetailsByCustomerId(): JsonResponse
+    {
+        try {
+            // Get the authenticated user's ID.
+            // This method is under auth:sanctum middleware, Laravel automatically knows who the user is from the Bearer token.
+            // The user ID is automatically extracted from the Bearer token by Laravel's Auth::id().
+            // Thus, not explicitly passing user id in the URL; frontend just sends the token (no user ID needed).
+            $userId = Auth::id();
+
+            // Fetch all orders for this user, sorted by most recent first
+            $orders = Order::where('user_id', $userId)
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            // Return the orders
+            return response()->json($orders, 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => true,
+                'message' => 'Failed to fetch orders',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 }
