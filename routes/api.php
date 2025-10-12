@@ -43,9 +43,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/{order}', [OrderController::class, 'destroy']);
 
         // Customer POV - order history view api data.
-        Route::get('/order-history', [OrderController::class, 'getOrderDetailsByCustomerId']);
+        Route::get('/history', [OrderController::class, 'getOrderDetailsByCustomerId']);
         // Customer POV - latest order placed view api data.
-        Route::get('/order-placed', [OrderController::class, 'getLatestOrderDetailByCustomerId']);
+        Route::get('/tracking', [OrderController::class, 'getLatestOrderDetailByCustomerId']);
     });
 });
 
