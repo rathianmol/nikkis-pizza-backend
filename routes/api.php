@@ -35,17 +35,19 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('orders')->group(function () {
+
+        // BUG FIX: Specific routes MUST come before parameterized routes (routes with {parameter}).
+        // Customer POV - order history view api data.
+        Route::get('/history', [OrderController::class, 'getOrderDetailsByCustomerId']);
+        // Customer POV - latest order placed view api data.
+        Route::get('/tracking', [OrderController::class, 'getLatestOrderDetailByCustomerId']);
+
         // Basic CRUD operations
         Route::get('/', [OrderController::class, 'index']);
         Route::get('/{order}', [OrderController::class, 'show']);
         Route::post('/', [OrderController::class, 'store']);
         Route::put('/{order}', [OrderController::class, 'update']);
         Route::delete('/{order}', [OrderController::class, 'destroy']);
-
-        // Customer POV - order history view api data.
-        Route::get('/history', [OrderController::class, 'getOrderDetailsByCustomerId']);
-        // Customer POV - latest order placed view api data.
-        Route::get('/tracking', [OrderController::class, 'getLatestOrderDetailByCustomerId']);
     });
 });
 
