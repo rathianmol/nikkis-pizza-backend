@@ -160,4 +160,26 @@ class OrderController extends Controller
             ], 500);
         }
     }
+
+    public function getLatestOrderDetailByCustomerId(): JsonResponse
+    {
+         try {
+            $userId = Auth::id();
+            // Fetch the most recent order placed for a customer.
+            $order = Order::where('user_id', $userId)
+                ->orderBy('created_at', 'desc')
+                ->first();
+
+            // Return the orders
+            return response()->json($order, 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => true,
+                'message' => 'Failed to fetch order.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }
