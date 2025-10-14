@@ -90,10 +90,19 @@ class OrderController extends Controller
      */
     public function show(Order $order): JsonResponse
     {
+        // Authorization check to ensure user can only see their own orders
+        if ($order->user_id !== Auth::id()) {
+            return response()->json([
+                'success' => false,
+                'error' => true,
+                'message' => 'Unauthorized access to this order',
+            ], 403);
+        }
+
         return response()->json([
             'success' => true,
             'order' => $order,
-        ]);
+        ], 200);
     }
 
     /**
@@ -163,6 +172,7 @@ class OrderController extends Controller
 
     public function getLatestOrderDetailByCustomerId(): JsonResponse
     {
+        // xdebug_break();
          try {
             $userId = Auth::id();
             // Fetch the most recent order placed for a customer.
