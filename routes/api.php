@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PizzaController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\AdminOrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -48,6 +49,19 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [OrderController::class, 'store']);
         Route::put('/{order}', [OrderController::class, 'update']);
         Route::delete('/{order}', [OrderController::class, 'destroy']);
+    });
+
+        // ADMIN ROUTES - Protected by Spatie roles middleware
+    Route::middleware('role:admin|super-admin')->prefix('admin')->group(function () {
+        
+        Route::prefix('/orders')->group(function () {
+            Route::get('/', [AdminOrderController::class, 'index']);
+            Route::get('/{order}', [AdminOrderController::class, 'show']);
+            Route::put('/{order}', [AdminOrderController::class, 'update']);
+            Route::delete('/{order}', [AdminOrderController::class, 'destroy']);
+            Route::get('/export/all', [AdminOrderController::class, 'exportAll']);
+            Route::patch('/{order}/status', [AdminOrderController::class, 'updateStatus']);
+        });
     });
 });
 
