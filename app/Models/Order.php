@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Order extends Model
 {
@@ -51,6 +52,12 @@ class Order extends Model
     // {
     //     return $value ? json_decode($value, true) : null;
     // }
+
+    // Relationship to User
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     // Helper method to check if order is for delivery
     public function isDelivery()
