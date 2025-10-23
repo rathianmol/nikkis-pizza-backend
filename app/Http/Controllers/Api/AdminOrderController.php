@@ -82,73 +82,87 @@ class AdminOrderController extends Controller
      * Update an order
      */
     // public function update(Request $request, Order $order)
-    public function update(Request $request)
-    {
-        // $this->authorize('update-order', $order);
-        $message = 'Attempt to update order failed, (please check order Id).';
-        $success = false;
-        $data = [];
-        $httpCode = Response::HTTP_NOT_FOUND; 
-        try {
-            $validated = $request->validate([
-                'status' => 'nullable|in:pending,confirmed,preparing,ready,delivered,cancelled',
-                // 'notes' => 'nullable|string',
-                // 'total_price' => 'nullable|numeric|min:0',
-            ]);
+    // public function update(Request $request)
+    // {
+    //     // $this->authorize('update-order', $order);
+    //     $message = 'Attempt to update order failed, (please check order Id).';
+    //     $success = false;
+    //     $data = [];
+    //     $httpCode = Response::HTTP_NOT_FOUND; 
+    //     try {
+    //         $validated = $request->validate([
+    //             'status' => 'nullable|in:pending,confirmed,preparing,ready,delivered,cancelled',
+    //             // 'notes' => 'nullable|string',
+    //             // 'total_price' => 'nullable|numeric|min:0',
+    //         ]);
 
-            // $order->update($validated);
-            $order = Order::with('user')
-                ->where('id', $request->input('orderId'))
-                ->first();
+    //         // $order->update($validated);
+    //         $order = Order::with('user')
+    //             ->where('id', $request->input('orderId'))
+    //             ->first();
 
-            $order->update($validated);
+    //         $order->update($validated);
 
-            if ($order->wasChanged()) {
-                $message = 'Order was updated successfully.';
-                $success = true;
-                $data = $order->fresh();
-                $httpCode = Response::HTTP_OK;
-            } else {
-                $message = 'Updated with no attribute changes.';
-                $success = true;
-                $data = $order;
-                $httpCode = Response::HTTP_OK;
-            }
+    //         if ($order->wasChanged()) {
+    //             $message = 'Order was updated successfully.';
+    //             $success = true;
+    //             $data = $order->fresh();
+    //             $httpCode = Response::HTTP_OK;
+    //         } else {
+    //             $message = 'Updated with no attribute changes.';
+    //             $success = true;
+    //             $data = $order;
+    //             $httpCode = Response::HTTP_OK;
+    //         }
 
-            return response()->json([
-                'message' => $message,
-                'data' => $data,
-                'success' => $success,
-            ], $httpCode);
+    //         return response()->json([
+    //             'message' => $message,
+    //             'data' => $data,
+    //             'success' => $success,
+    //         ], $httpCode);
 
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to update order.',
-                'error' => $e->getMessage()
-            ], 500);
-        }
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'Failed to update order.',
+    //             'error' => $e->getMessage()
+    //         ], 500);
+    //     }
         
-    }
+    // }
 
     /**
      * Update order status
      */
-    // public function updateStatus(Request $request, Order $order)
-    // {
-    //     $this->authorize('update-order-status', $order);
+    public function updateStatus(Request $request, Order $order)
+    {
+        try {
+            $validated = $request->validate([
+                'status' => 'required|in:pending,confirmed,preparing,ready,out for delivery,completed,cancelled',
+            ]);
 
-    //     $validated = $request->validate([
-    //         'status' => 'required|in:pending,confirmed,preparing,ready,delivered,cancelled',
-    //     ]);
+            $order->update($validated);
 
-    //     $order->update(['status' => $validated['status']]);
+            // Explicitly refresh the model from database to ensure we have the latest data
+            $order->refresh();
+            
+            // Load the user relationship
+            $order->load('user');
 
-    //     return response()->json([
-    //         'message' => 'Order status updated successfully',
-    //         'data' => $order
-    //     ], 200);
-    // }
+            return response()->json([
+                'message' => 'Order status updated successfully.',
+                'data' => $order,
+                'success' => true,
+            ], Response::HTTP_OK);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update order status.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 
     /**
      * Delete an order
