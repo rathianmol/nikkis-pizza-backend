@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\PizzaController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\AdminOrderController;
+use App\Http\Controllers\Api\AdminCustomerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -61,6 +62,15 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::delete('/{order}', [AdminOrderController::class, 'destroy']);
             Route::get('/export/all', [AdminOrderController::class, 'exportAll']);
             Route::patch('/{order}/status', [AdminOrderController::class, 'updateStatus']);
+        });
+
+        // Customer Management Routes
+        Route::prefix('/customers')->group(function () {
+            Route::get('/', [AdminCustomerController::class, 'index']);
+            Route::get('/{customer}', [AdminCustomerController::class, 'show']);
+            Route::post('/', [AdminCustomerController::class, 'store']);
+            Route::put('/{customer}', [AdminCustomerController::class, 'update']);
+            Route::delete('/{customer}', [AdminCustomerController::class, 'destroy']);
         });
     });
 });
