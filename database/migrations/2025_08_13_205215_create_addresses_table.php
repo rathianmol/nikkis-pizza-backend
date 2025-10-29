@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('state');
             $table->string('postal_code');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

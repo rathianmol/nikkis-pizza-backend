@@ -23,6 +23,7 @@ return new class extends Migration
             $table->json('card_info')->nullable();
             $table->enum('status', ['pending', 'confirmed', 'preparing', 'ready', 'completed', 'cancelled'])->default('pending');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

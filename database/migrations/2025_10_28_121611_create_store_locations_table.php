@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('store_locations', function (Blueprint $table) {
             $table->id();
+
             $table->string('name');
             $table->string('address_line_1');
             $table->string('address_line_2')->nullable();
@@ -35,6 +36,7 @@ return new class extends Migration
             $table->boolean('is_primary')->default(false);
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
