@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\AdminOrderController;
 use App\Http\Controllers\Api\AdminCustomerController;
+use App\Http\Controllers\Api\AdminStoreLocationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -71,6 +72,15 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('/', [AdminCustomerController::class, 'store']);
             Route::put('/{customer}', [AdminCustomerController::class, 'update']);
             Route::delete('/{customer}', [AdminCustomerController::class, 'destroy']);
+        });
+
+        // StoreLocation Management Routes
+        Route::prefix('/store-location')->group(function () {
+            Route::get('/', [AdminStoreLocationController::class, 'index']);
+            Route::get('/{storeLocation}', [AdminStoreLocationController::class, 'show']);
+            Route::post('/', [AdminStoreLocationController::class, 'store']);
+            Route::put('/{storeLocation}', [AdminStoreLocationController::class, 'update']);
+            Route::delete('/{storeLocation}', [AdminStoreLocationController::class, 'destroy']);
         });
     });
 });
