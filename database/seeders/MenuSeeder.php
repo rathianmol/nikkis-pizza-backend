@@ -23,7 +23,7 @@ class MenuSeeder extends Seeder
         $sandwich = MenuCategory::create(['category_name' => 'Sandwich', 'display_order' => 7]);
         $wrap = MenuCategory::create(['category_name' => 'Wrap', 'display_order' => 8]);
         $pasta = MenuCategory::create(['category_name' => 'Pasta', 'display_order' => 9]);
-        $hotPockets = MenuCategory::create(['category_name' => 'Hot Pockets', 'display_order' => 10]);
+        $hotPocketsCategory = MenuCategory::create(['category_name' => 'Hot Pockets', 'display_order' => 10]);
         $coolers = MenuCategory::create(['category_name' => 'Coolers', 'display_order' => 11]);
         $icedTea = MenuCategory::create(['category_name' => 'Iced Tea', 'display_order' => 12]);
         $desserts = MenuCategory::create(['category_name' => 'Desserts', 'display_order' => 13]);
@@ -375,7 +375,7 @@ class MenuSeeder extends Seeder
 
         // HOT POCKETS (no sizes, no addons)
         $hotPockets = MenuItem::create([
-            'category_id' => $hotPockets->id,
+            'category_id' => $hotPocketsCategory->id,
             'title' => 'Hot Pockets',
             'has_sizes' => false,
             'has_addons' => false,
@@ -383,7 +383,7 @@ class MenuSeeder extends Seeder
         MenuItemPrice::create(['menu_item_id' => $hotPockets->id, 'size' => 'default', 'price' => 69]);
 
         $stuffedHotPockets = MenuItem::create([
-            'category_id' => $hotPockets->id,
+            'category_id' => $hotPocketsCategory->id,
             'title' => 'Stuffed Hot Pockets',
             'has_sizes' => false,
             'has_addons' => false,
@@ -391,7 +391,7 @@ class MenuSeeder extends Seeder
         MenuItemPrice::create(['menu_item_id' => $stuffedHotPockets->id, 'size' => 'default', 'price' => 109]);
 
         $paneerStuffedHotPockets = MenuItem::create([
-            'category_id' => $hotPockets->id,
+            'category_id' => $hotPocketsCategory->id,
             'title' => 'Paneer Stuffed Hot Pockets',
             'description' => 'Chef Special',
             'has_sizes' => false,
@@ -401,7 +401,7 @@ class MenuSeeder extends Seeder
         MenuItemPrice::create(['menu_item_id' => $paneerStuffedHotPockets->id, 'size' => 'default', 'price' => 109]);
 
         $tandooriPaneerHotPockets = MenuItem::create([
-            'category_id' => $hotPockets->id,
+            'category_id' => $hotPocketsCategory->id,
             'title' => 'Tandoori Paneer Hot Pockets',
             'description' => 'Chef Special',
             'has_sizes' => false,
