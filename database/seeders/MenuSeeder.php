@@ -1,4 +1,3 @@
-// database/seeders/MenuSeeder.php
 <?php
 
 namespace Database\Seeders;
