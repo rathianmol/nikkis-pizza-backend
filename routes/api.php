@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\AdminOrderController;
 use App\Http\Controllers\Api\AdminCustomerController;
 use App\Http\Controllers\Api\AdminStoreLocationController;
+use App\Http\Controllers\Api\MenuItemController;
+use App\Http\Controllers\Api\MenuCategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -75,7 +77,7 @@ Route::middleware('auth:sanctum')->group(function () {
         });
 
         // StoreLocation Management Routes
-        Route::prefix('/store-location')->group(function () {
+        Route::prefix('/store-locations')->group(function () {
             Route::get('/', [AdminStoreLocationController::class, 'index']);
             Route::get('/{storeLocation}', [AdminStoreLocationController::class, 'show']);
             Route::post('/', [AdminStoreLocationController::class, 'store']);
@@ -117,4 +119,16 @@ Route::prefix('pizzas')->group(function () {
     // Route::get('/paginated/list', [PizzaController::class, 'paginated']);
     // Route::get('/search/query', [PizzaController::class, 'search']);
     // Route::get('/filter/price', [PizzaController::class, 'filterByPrice']);
+});
+
+
+// Public Menu Routes - Customer Level
+Route::prefix('menu')->group(function () {
+    // Categories
+    Route::get('/categories', [MenuCategoryController::class, 'index']);
+    Route::get('/categories/{id}', [MenuCategoryController::class, 'show']);
+    // Menu Items
+    Route::get('/items', [MenuItemController::class, 'index']);
+    Route::get('/items/category/{categoryId}', [MenuItemController::class, 'byCategory']);
+    Route::get('/items/{id}', [MenuItemController::class, 'show']);
 });
