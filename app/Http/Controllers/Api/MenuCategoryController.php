@@ -6,14 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Models\MenuCategory;
 // use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class MenuCategoryController extends Controller
 {
     public function index()
     {
-        $categories = MenuCategory::where('is_active', true)
+        // $categories = MenuCategory::where('is_active', true)
+        //     ->orderBy('display_order')
+        //     ->orderBy('category_name')
+        //     // ->withCount('activeMenuItems')
+
+        // xdebug_break();
+        $categories = MenuCategory::with('activeMenuItems')
             ->orderBy('display_order')
             ->orderBy('category_name')
-            ->withCount('activeMenuItems')
             ->get();
 
         return response()->json($categories);
@@ -21,9 +26,12 @@ class CategoryController extends Controller
 
     public function show($id)
     {
-        $category = MenuCategory::with(['activeMenuItems' => function($query) {
-            $query->orderBy('display_order')->orderBy('title');
-        }])->findOrFail($id);
+        // $category = MenuCategory::with(['activeMenuItems' => function($query) {
+        //     $query->orderBy('display_order')->orderBy('title');
+        // }])->findOrFail($id);
+        $category = MenuCategory::orderBy('display_order')
+            ->orderBy('title')
+            ->findOrFail();
 
         return response()->json($category);
     }
