@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class MenuItemPrice extends Model
 {
+
+    protected $table = 'menu_item_prices';
         protected $fillable = [
         'menu_item_id',
         'size',

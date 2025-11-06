@@ -7,6 +7,9 @@ use Illuminate\Support\Str;
 
 class MenuItem extends Model
 {
+
+    protected $table = 'menu_items';
+
 protected $fillable = [
         'category_id',
         'title',

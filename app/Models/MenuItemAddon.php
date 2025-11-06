@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class MenuItemAddon extends Model
 {
+
+    protected $table = 'menu_item_addons';
  protected $fillable = [
         'menu_item_id',
         'addon_name',

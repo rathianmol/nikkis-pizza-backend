@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 
 class MenuCategory extends Model
 {
+    protected $table = 'menu_categories';
     protected $fillable = [
         'category_name',
         'slug',
@@ -17,6 +18,8 @@ class MenuCategory extends Model
     protected $casts = [
         'is_active' => 'boolean',
     ];
+
+    protected $with = ['menuItems', 'activeMenuItems'];
 
     // Automatically generate slug
     protected static function boot()
@@ -32,11 +35,11 @@ class MenuCategory extends Model
 
     public function menuItems()
     {
-        return $this->hasMany(MenuItem::class);
+        return $this->hasMany(MenuItem::class, 'category_id');
     }
 
     public function activeMenuItems()
     {
-        return $this->hasMany(MenuItem::class)->where('is_available', true);
+        return $this->hasMany(MenuItem::class, 'category_id')->where('is_available', true);
     }
 }
