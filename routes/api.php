@@ -22,6 +22,13 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+//The application needs to fetch location data to display store-location(s) on web-page.
+Route::prefix('store-locations')->group(function () {
+    Route::get('/', [AdminStoreLocationController::class, 'index']);
+    Route::get('/{storeLocation}', [AdminStoreLocationController::class, 'show']);
+});
+
+
 // Protected routes (authentication required)
 Route::middleware('auth:sanctum')->group(function () {
     
@@ -78,8 +85,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // StoreLocation Management Routes
         Route::prefix('/store-locations')->group(function () {
-            Route::get('/', [AdminStoreLocationController::class, 'index']);
-            Route::get('/{storeLocation}', [AdminStoreLocationController::class, 'show']);
+            // Route::get('/', [AdminStoreLocationController::class, 'index']);
+            // Route::get('/{storeLocation}', [AdminStoreLocationController::class, 'show']);
             Route::post('/', [AdminStoreLocationController::class, 'store']);
             Route::put('/{storeLocation}', [AdminStoreLocationController::class, 'update']);
             Route::delete('/{storeLocation}', [AdminStoreLocationController::class, 'destroy']);
